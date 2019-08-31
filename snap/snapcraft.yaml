@@ -1,0 +1,56 @@
+name: qt551-app 
+version: '1.0' 
+summary: This app based on Qt 5.5.1 SDK demostrating use of qt551 content snap
+description: |
+  Qt WebEngine provides C++ classes and QML types for rendering HTML, XHTML, and SVG documents, styled using
+  Cascading Style Sheets (CSS) and scripted with JavaScript. HTML documents can be made fully editable by the
+  user through the use of the contenteditable attribute on HTML elements.
+
+grade: stable  
+confinement: strict 
+
+architectures:
+  - build-on: amd64
+    run-on: amd64 
+
+apps:
+  test:
+    command: bin/desktop-launch test
+    plugs:
+        - browser-support
+        - desktop
+        - desktop-legacy
+        - gsettings
+        - home
+        - network
+        - opengl
+        - pulseaudio
+        - unity7
+        - x11
+        - wayland
+
+plugs:
+  qt551:
+    default-provider: qt551
+    interface: content
+    target: $SNAP/qt551
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/qt551/usr/share/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/qt551/usr/share/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/qt551/usr/share/sounds
+    default-provider: gtk-common-themes
+
+parts:
+  appdir:
+    plugin: dump
+    source: appdir/
+    build-attributes: 
+      - keep-execstack
+      - no-system-libraries
