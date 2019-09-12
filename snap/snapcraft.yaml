@@ -8,6 +8,7 @@ description: |
 
 grade: stable  
 confinement: strict 
+base: core18
 
 architectures:
   - build-on: amd64
@@ -15,6 +16,8 @@ architectures:
 
 apps:
   test:
+    environment:
+      QT_QPA_PLATFORMTHEME: gtk3 
     command: bin/desktop-launch test
     plugs:
         - browser-support
@@ -28,29 +31,28 @@ apps:
         - unity7
         - x11
         - wayland
-
+ 
 plugs:
-  qt551:
-    default-provider: qt551
-    interface: content
-    target: $SNAP/qt551
+  gsettings:
   gtk-3-themes:
     interface: content
-    target: $SNAP/qt551/usr/share/themes
+    target: $SNAP/data-dir/themes
     default-provider: gtk-common-themes
   icon-themes:
     interface: content
-    target: $SNAP/qt551/usr/share/icons
+    target: $SNAP/data-dir/icons
     default-provider: gtk-common-themes
   sound-themes:
     interface: content
-    target: $SNAP/qt551/usr/share/sounds
+    target: $SNAP/data-dir/sounds
     default-provider: gtk-common-themes
+  qt551:
+    interface: content
+    target: $SNAP/qt551
+    default-provider: qt551
+    
 
 parts:
   appdir:
     plugin: dump
     source: appdir/
-    build-attributes: 
-      - keep-execstack
-      - no-system-libraries
